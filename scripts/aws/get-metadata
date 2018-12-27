@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Autor: Aissar Murad
+#
+# Usage:
+# get-metadata meta-data/instance-id
+#
+
+# exit on error
+set -e
+
+PARAMETER=$1
+
+curl "http://169.254.169.254/latest/$PARAMETER/"

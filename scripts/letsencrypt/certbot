@@ -1,0 +1,143 @@
+#!/usr/bin/env bash
+
+# References
+# https://certbot.eff.org/docs/using.html#certbot-commands
+# https://github.com/certbot/certbot/tree/master/certbot-dns-route53
+# https://github.com/certbot/certbot/tree/master/certbot-dns-dnsimple
+
+function print_help(){
+  echo    "Usage: $0 subcommand [options]. Where subcommand is:"
+  echo    " build    : Builds Docker image used in other subcommands "
+  echo    " certbot  : Allows use of certbot directly"
+  echo    " dnsimple : Uses certbot-dns-dnsimple plugin with certbot"
+  echo    " dnsimple-renew : Uses certbot-dns-dnsimple plugin to renew a certificate"
+  echo    " help     : Prints this help"
+  echo    " route53  : Uses certbot-dns-route53 plugin with certbot"
+  echo    " route53-renew : Uses certbot-dns-route53 plugin to renew a certificate"
+  echo    ""
+  echo    "For more details, see README.md"
+}
+
+function build() {
+  docker build -t quero/certbot - < Dockerfile
+}
+
+function route53() {
+	local AT="$@"
+
+  docker run --rm -it \
+    -v $PWD/workdir:/workdir  \
+    -v $HOME/.aws:/root/.aws \
+    quero/certbot bash -c "
+      certbot certonly --agree-tos --dns-route53 \
+      --config-dir /workdir/letsencrypt \
+      --work-dir   /workdir/letsencrypt \
+      --logs-dir   /workdir/letsencrypt \
+      $AT
+    "
+}
+
+function route53-renew () {
+  local AT="$@"
+
+  docker run --rm -it \
+    -v $PWD/workdir:/workdir  \
+    -v $HOME/.aws:/root/.aws \
+    quero/certbot bash -c "
+      certbot --agree-tos --dns-route53 \
+      --config-dir /workdir/letsencrypt \
+      --work-dir   /workdir/letsencrypt \
+      --logs-dir   /workdir/letsencrypt \
+      renew --cert-name $AT
+    "
+}
+
+function dnsimple-renew(){
+  # observation:
+  # If you change the indentation from tabs to space in this function, test it
+  #  indentation with tabs has a different meaning in bash
+  local AT="$@"
+
+  docker run --rm -it \
+    -v $PWD/workdir:/workdir \
+    --tmpfs /tmp \
+		quero/certbot bash -c "
+			read -p 'Type dnsimple token (API v2): ' -s DNSIMPLE_TOKEN
+			echo ''
+			if [ -z DNSIMPLE_TOKEN ]; then exit 2; fi
+			echo \"dns_dnsimple_token = \$DNSIMPLE_TOKEN\" > /tmp/dnsimple.ini
+			chmod 600 /tmp/dnsimple.ini
+			set -x
+			certbot renew \
+			--dns-dnsimple-credentials /tmp/dnsimple.ini \
+			--config-dir /workdir/letsencrypt \
+			--work-dir   /workdir/letsencrypt \
+			--logs-dir   /workdir/letsencrypt \
+			--cert-name \
+			$AT
+			rm /tmp/dnsimple.ini
+		"
+}
+
+function dnsimple(){
+	local AT="$@"
+
+  docker run --rm -it \
+    -v $PWD/workdir:/workdir \
+    --tmpfs /tmp \
+		quero/certbot bash -c "
+			read -p 'Type dnsimple token (API v2): ' -s DNSIMPLE_TOKEN
+			echo ''
+			if [ -z DNSIMPLE_TOKEN ]; then exit 2; fi
+			echo \"dns_dnsimple_token = \$DNSIMPLE_TOKEN\" > /tmp/dnsimple.ini
+			chmod 600 /tmp/dnsimple.ini
+			set -x
+			certbot certonly --agree-tos --dns-dnsimple \
+			--force-interactive \
+			--dns-dnsimple-credentials /tmp/dnsimple.ini \
+			--config-dir /workdir/letsencrypt \
+			--work-dir   /workdir/letsencrypt \
+			--logs-dir   /workdir/letsencrypt \
+			$AT
+			rm /tmp/dnsimple.ini
+		"
+}
+
+function certbot(){
+	local AT="$@" # fixes : -c: line 4: unexpected EOF while looking for matching `"'
+
+  docker run --rm -it \
+    -v $PWD/workdir:/workdir \
+    quero/certbot bash -c "
+      certbot \
+      --config-dir /workdir/letsencrypt \
+      --work-dir   /workdir/letsencrypt \
+      --logs-dir   /workdir/letsencrypt \
+      $AT
+    "
+}
+
+function incorrect_usage() {
+  echo    "Incorrect usage"
+  echo    ""
+  print_help
+}
+
+function main() {
+  if [ $# == 0 ]; then
+    incorrect_usage
+    exit 1
+  fi
+  case "$1" in
+    build) shift 1; build "$@"; exit 0;;
+    certbot) shift 1; certbot "$@"; exit 0;;
+    dnsimple) shift 1; dnsimple "$@"; exit 0;;
+    dnsimple-renew) shift 1; dnsimple-renew "$@"; exit 0;;
+    help) shift 1; print_help; exit 0;;
+    route53) shift 1; route53 "$@"; exit 0;;
+    route53-renew) shift 1; route53-renew "$@"; exit 0;;
+    *) shift 1; incorrect_usage; exit 1;;
+  esac
+}
+
+main "$@"

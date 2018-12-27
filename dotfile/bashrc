@@ -1,0 +1,5 @@
+#
+# ~/.bashrc
+#
+[[ -f "$($HOME)/.bashrc_aliase" ]] && source "$($HOME)/.bashrc_aliase"
+[[ -f "$($HOME)/.bashrc_custom" ]] && source "$($HOME)/.bashrc_custom"
