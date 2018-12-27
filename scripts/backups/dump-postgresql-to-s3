@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+#
+# Usage:
+# dump-postgresql-to-s3 <DUMP_FILE> <DATABASE_NAME> <BUCKET_NAME>
+#
+
+# exit on error
+set -e
+
+if [ -z "$1" ]
+then
+      echo "DUMP_FILE is empty"
+      echo "dump-postgresql-to-s3 <DUMP_FILE> <DATABASE_NAME> <BUCKET_NAME>"
+else
+      DUMP_FILE=$1
+fi
+
+DATABASE_NAME=$2
+BUCKET_NAME=$3
+
+# export PGPASSWORD="yourpass"
+# better set up pg_hba.conf peer auth-method
+# https://www.postgresql.org/docs/current/auth-pg-hba-conf.html
+echo "[$(date +"%T")] << Dumping $1 db..."
+pg_dump -Fc -U "$DATABASE_NAME" > "$DUMP_FILE"
+if [ $? -eq 0 ]; then
+    echo "[$(date +"%T")] ✓ Dump done"
+else
+    echo "[$(date +"%T")] ! Dump failed, exiting..."
+    exit 0
+fi
+#unset PGPASSWORD
+
+echo "[$(date +"%T")] >> Uploading $DUMP_FILE to s3"
+
+aws s3 cp "$DUMP_FILE" s3://"$BUCKET_NAME"
+if [ $? -eq 0 ]; then
+    echo "[$(date +"%T")] ✓ Upload done"
+else
+    echo "[$(date +"%T")] ! Upload failed"
+fi

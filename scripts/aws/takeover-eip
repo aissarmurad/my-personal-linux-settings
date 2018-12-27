@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Autor: Aissar Murad
+#
+#
+
+# exit on error
+set -e
+
+INSTANCE_ID="$(curl http://169.254.169.254/latest/meta-data/instance-id)"
+EIP_ID="eipalloc-16fc3873"
+
+# ASSOCIATE EIP-VPC ADDRESS TO INSTANCE
+aws ec2 associate-address --instance-id "$INSTANCE_ID" --allocation-id "$EIP_ID"

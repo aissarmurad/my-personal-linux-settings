@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#
+#
+
+# exit on error
+set -e
+
+
+DATE=$(date -d 'now' +'%Y%m%d-%H%M%S')
+TIMEOUT="--timeout 60"
+LATENCY="--latency"
+CONNECTIONS="--connections 40000"
+THREADS="--threads 8"
+DURATION="--duration 600s"
+LOGFILE="$DATE-report-stress-test.txt"
+
+echo "OLD INSTANCE" > "$LOGFILE"
+HOST=$1
+wrk --header 'Accept-Encoding:gzip' "$TIMEOUT" "$LATENCY" "$CONNECTIONS" "$THREADS" "$DURATION" "$HOST" >> "$LOGFILE"
+
+sleep 60
+
+echo "NEW INSTANCE" >> "$LOGFILE"
+HOST=$2
+wrk --header 'Accept-Encoding:br' "$TIMEOUT" "$LATENCY" "$CONNECTIONS" "$THREADS" "$DURATION" "$HOST" >> "$LOGFILE"
