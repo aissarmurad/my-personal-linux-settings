@@ -1,11 +1,14 @@
 # PROGRAMS
 
-## OFFICE
-- [cherrytree]()
-- [tldr]()
-- [zeal]()
-- [zathura]()
-- [zettlr]()
+## PRODUCTIVITY
+- [cherrytree](https://www.giuspen.com/cherrytree/)
+- [tldr](https://tldr.sh/)
+- [zeal](https://zealdocs.org/)
+- [devdocs](https://devdocs.io/)
+- [zathura](https://pwmt.org/projects/zathura/index.html)
+- [zettlr](https://www.zettlr.com/)
+- [flameshot](https://flameshot.org/)
+- [peek](https://github.com/phw/peek)
 
 ## TEXT EDITORS
 - [visual-studio-code]()
@@ -20,7 +23,6 @@
 - [ansible](https://www.ansible.com/)
 - [awscli]()
 - [ebcli]()
-- [awless]()
 - [meld](https://meldmerge.org/)
 - [git](https://git-scm.com/)
 - [gitg](https://wiki.gnome.org/Apps/Gitg/)
