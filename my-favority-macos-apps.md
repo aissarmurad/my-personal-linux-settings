@@ -1,3 +1,4 @@
+```bash
 brew install awscli
 brew install aws-iam-authenticator
 brew install fuzzy-find
@@ -21,14 +22,16 @@ brew install translate-shell
 brew install tree
 brew install zsh-autosuggestions
 brew install zsh-completions
+```
 
-
+```bash
 brew install --cask flameshot
 brew install --cask google-cloud-sdk
 brew install --cask iterm2
 brew install --cask openvpn-connect
+brew install --cask session-manager-plugin
 brew install --cask visual-studio-code
-
+```
 
 
 https://command-not-found.com/ip
