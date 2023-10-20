@@ -54,11 +54,13 @@
 - ping
 - mtr
 - tcpdump
-- wireshark
+- [wireshark](https://www.wireshark.org/)
 - netcat
+- [nmap](https://nmap.org/)
 - ipcalc
-- curl
-- httpie
+- [curl](https://curl.se/)
+- [httpie](https://httpie.io/)
+- [hurl](https://hurl.dev/)
 - httpstat
 - ethtool
 - iperf
@@ -84,6 +86,7 @@
 - [mysql](https://www.mysql.com/)
 - [elasticsearch](https://www.elastic.co/)
 - [dqlite](https://dqlite.io/)
+- [rqlite](https://rqlite.io/)
 - [sqlite](https://www.sqlite.org/)
 
 ## CHAT
