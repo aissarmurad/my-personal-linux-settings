@@ -14,6 +14,7 @@
 - [visual-studio-code]()
 - [emacs]()
 - [vim]()
+- [neovim]()
 - [nano]()
 
 ## DEVELOPMENT
@@ -28,6 +29,17 @@
 - [gitg](https://wiki.gnome.org/Apps/Gitg/)
 - [insomnia](https://insomnia.rest/)
 - [adr-tools](https://github.com/npryce/adr-tools)
+- [fzf](https://github.com/junegunn/fzf)
+- [fd](https://github.com/sharkdp/fd)
+- [ripgrep](https://github.com/BurntSushi/ripgrep)
+- [the silver searcher](https://github.com/ggreer/the_silver_searcher)
+- [bat](https://github.com/sharkdp/bat)
+- [yaml2json](https://github.com/bronze1man/yaml2json)
+- [jc](https://github.com/kellyjonbrazil/jc)
+- [yq](https://github.com/mikefarah/yq)
+- [jq](https://github.com/jqlang/jq)
+- [jp](https://github.com/jmespath/jp)
+- [ranger](https://github.com/ranger/ranger)
 
 ## KUBERNETES
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
@@ -52,7 +64,8 @@
 
 ## TROUBLESHOOTING / PERFORMANCE TOOLS
 - ping
-- mtr
+- [mtr](https://github.com/traviscross/mtr)
+- [tcptraceroute](https://github.com/mct/tcptraceroute)
 - tcpdump
 - [wireshark](https://www.wireshark.org/)
 - netcat
@@ -76,9 +89,17 @@
 - arp-scan
 - wavemon
 - glances
-- wrk2 (It replaces apache workbench - ab)
+- [wrk2 (It replaces apache workbench - ab)](https://github.com/giltene/wrk2)
+- []
 - ss / netstat
 - ip / ifconfig
+- [httpx](https://github.com/projectdiscovery/httpx)
+- [drill](https://github.com/fcsonline/drill)
+- [goku](https://github.com/k-nasa/goku)
+- [oha](https://github.com/hatoo/oha)
+- [rlt](https://github.com/wfxr/rlt)
+- [s-tui](https://github.com/amanusk/s-tui)
+
 
 ## DATABASE
 - [postgresql](https://www.postgresql.org/)
